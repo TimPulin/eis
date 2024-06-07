@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { getAreas, getMeters } from '../connections/server-connections';
-import Pagination from '../components/pagination/Pagination';
+import PaginationList from '../components/pagination/PaginationList';
 import MeterTable from '../components/meter-table/MeterTable';
 import { H1 } from '../styles/titles';
 import { Area, Meter } from '../utils/types';
@@ -28,8 +28,6 @@ export default function MeterPage() {
 
   async function getAreasLocal(addressList: Array<string>) {
     const areas = await getAreas(addressList);
-    console.log(areas.data.results);
-
     setAreas(areas.data.results);
   }
 
@@ -51,10 +49,10 @@ export default function MeterPage() {
         currentPageIndex={currentPageIndex}
       />
 
-      <Pagination
+      <PaginationList
         limit={METERS_LIMIT}
         count={count}
-        currentPage={currentPageIndex}
+        currentPageIndex={currentPageIndex}
         onClick={onClickPagination}
       />
     </>

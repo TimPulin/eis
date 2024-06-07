@@ -38,3 +38,18 @@ export const StyledButton = styled.button<ButtonProps>`
     box-shadow: 0 0 3px 1px ${({ theme }) => theme.colors.border};
   }
 `;
+
+export const StyledThreeDots = styled.span`
+  ${buttonStyle}
+  position: relative;
+  display: inline-block;
+  padding-block: 8px;
+  cursor: none;
+  border: 2px solid ${({ theme }) => theme.colors.border};
+  line-height: 1.1;
+
+  &::after {
+    content: '...';
+    position: relative;
+  }
+`;
