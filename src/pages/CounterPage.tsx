@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import { getAreas, getMeters } from '../connections/server-connections';
-import CounterTable from '../components/CounterTable';
 import { Area, Meter } from '../utils/types';
+import CounterTable from '../components/CounterTable';
+import { H1 } from '../styles/titles';
 
 export default function CounterPage() {
   const [meters, setMeters] = useState<Array<Meter>>([]);
@@ -24,7 +25,7 @@ export default function CounterPage() {
   }, []);
   return (
     <>
-      <h1>Список счётчиков</h1>
+      <H1>Список счётчиков</H1>
       <CounterTable meters={meters} areas={areas} />
     </>
   );
