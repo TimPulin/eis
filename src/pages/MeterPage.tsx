@@ -1,32 +1,62 @@
 import { useEffect, useState } from 'react';
 import { getAreas, getMeters } from '../connections/server-connections';
-import { Area, Meter } from '../utils/types';
-import MeterTable from '../components/MeterTable';
+import Pagination from '../components/pagination/Pagination';
+import MeterTable from '../components/meter-table/MeterTable';
 import { H1 } from '../styles/titles';
+import { Area, Meter } from '../utils/types';
+import { METERS_LIMIT } from '../connections/server-connections';
 
 export default function MeterPage() {
   const [meters, setMeters] = useState<Array<Meter>>([]);
   const [areas, setAreas] = useState<Array<Area>>([]);
+  const [count, setCount] = useState(0);
+  const [currentPageIndex, setCurrentPageIndex] = useState(0);
+
   async function getMetersLocal(offset: number = 0) {
     const meters = await getMeters(offset);
-    console.log(meters);
+    const addressList = new Set(
+      meters.data.results.map((meter) => meter.area.id)
+    );
+
+    if (addressList) {
+      getAreasLocal(Array.from(addressList));
+    }
 
     setMeters(meters.data.results);
+    setCount(meters.data.count);
   }
 
-  async function getAreasLocal(offset: number = 0) {
-    const areas = await getAreas(offset);
+  async function getAreasLocal(addressList: Array<string>) {
+    const areas = await getAreas(addressList);
+    console.log(areas.data.results);
+
     setAreas(areas.data.results);
   }
 
+  const onClickPagination = (pageIndex: number) => {
+    setCurrentPageIndex(pageIndex);
+    getMetersLocal(pageIndex * METERS_LIMIT);
+  };
+
   useEffect(() => {
     getMetersLocal();
-    getAreasLocal();
   }, []);
+
   return (
     <>
       <H1>Список счётчиков</H1>
-      <MeterTable meters={meters} areas={areas} />
+      <MeterTable
+        meters={meters}
+        areas={areas}
+        currentPageIndex={currentPageIndex}
+      />
+
+      <Pagination
+        limit={METERS_LIMIT}
+        count={count}
+        currentPage={currentPageIndex}
+        onClick={onClickPagination}
+      />
     </>
   );
 }
