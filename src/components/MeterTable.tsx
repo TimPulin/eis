@@ -58,12 +58,12 @@ const Table = styled.table`
   }
 `;
 
-type CounterTablePropsType = {
+type MeterTablePropsType = {
   meters: Array<Meter>;
   areas: Array<Area>;
 };
 
-export default function CounterTable(props: CounterTablePropsType) {
+export default function MeterTable(props: MeterTablePropsType) {
   const { meters, areas } = props;
   return (
     <TableWrapper>

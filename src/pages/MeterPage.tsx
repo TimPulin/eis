@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import { getAreas, getMeters } from '../connections/server-connections';
 import { Area, Meter } from '../utils/types';
-import CounterTable from '../components/CounterTable';
+import MeterTable from '../components/MeterTable';
 import { H1 } from '../styles/titles';
 
-export default function CounterPage() {
+export default function MeterPage() {
   const [meters, setMeters] = useState<Array<Meter>>([]);
   const [areas, setAreas] = useState<Array<Area>>([]);
   async function getMetersLocal(offset: number = 0) {
@@ -26,7 +26,7 @@ export default function CounterPage() {
   return (
     <>
       <H1>Список счётчиков</H1>
-      <CounterTable meters={meters} areas={areas} />
+      <MeterTable meters={meters} areas={areas} />
     </>
   );
 }
