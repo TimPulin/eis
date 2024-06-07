@@ -1,12 +1,12 @@
 import './styles/basic-style.css';
 import { theme } from './styles/theme';
-import CounterPage from './pages/CounterPage';
+import MeterPage from './pages/MeterPage';
 import { ThemeProvider } from 'styled-components';
 
 function App() {
   return (
     <ThemeProvider theme={theme}>
-      <CounterPage />
+      <MeterPage />
     </ThemeProvider>
   );
 }
