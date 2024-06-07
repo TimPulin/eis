@@ -1,4 +1,11 @@
-export default function CounterTable() {
+import { Meter, Area } from '../utils/types';
+type CounterTablePropsType = {
+  meters: Array<Meter>;
+  areas: Array<Area>;
+};
+
+export default function CounterTable(props: CounterTablePropsType) {
+  const { meters, areas } = props;
   return (
     <table>
       <thead>
@@ -13,10 +20,17 @@ export default function CounterTable() {
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>1</td>
-          <td>2</td>
-        </tr>
+        {meters.map((meter, index) => (
+          <tr key={meter.id}>
+            <td>{index}</td>
+            <td>{meter._type[0]}</td>
+            <td>{meter.installation_date}</td>
+            <td>{meter.is_automatic}</td>
+            <td>{meter.initial_values[meter.initial_values.length - 1]}</td>
+            <td>address</td>
+            <td>{meter.description}</td>
+          </tr>
+        ))}
       </tbody>
     </table>
   );
