@@ -14,7 +14,7 @@ const MeterModel = types.model('Meter', {
   _type: types.array(types.string),
 });
 
-type MeterInstance = Instance<typeof MeterModel>;
+export type MeterInstance = Instance<typeof MeterModel>;
 
 const MetersStore = types
   .model('MeterStore', {
@@ -30,7 +30,7 @@ const MetersStore = types
     },
   }))
   .views((self) => ({
-    getMeters() {
+    get metersList() {
       return self.meters;
     },
   }));

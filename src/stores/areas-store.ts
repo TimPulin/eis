@@ -12,7 +12,7 @@ const AreaModel = types.model('Area', {
   str_number_full: types.string,
 });
 
-type AreaInstance = Instance<typeof AreaModel>;
+export type AreaInstance = Instance<typeof AreaModel>;
 
 const AreasStore = types
   .model('AreaStore', {
@@ -28,8 +28,11 @@ const AreasStore = types
     },
   }))
   .views((self) => ({
-    getAreas() {
+    get areasList() {
       return self.areas;
+    },
+    getAreaById(areaId: string) {
+      return self.areas.find((area) => area.id === areaId);
     },
   }));
 

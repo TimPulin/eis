@@ -1,16 +1,18 @@
-import { Meter, Area } from '../../utils/types';
+import { observer } from 'mobx-react';
+import metersStore from '../../stores/meters-store';
+import areasStore from '../../stores/areas-store';
+
 import { METERS_LIMIT } from '../../connections/server-connections';
 
 import { TableWrapper, Table } from './meter-table-styles';
 
 type MeterTablePropsType = {
-  meters: Array<Meter>;
-  areas: Array<Area>;
   currentPageIndex: number;
 };
 
-export default function MeterTable(props: MeterTablePropsType) {
-  const { meters, areas, currentPageIndex } = props;
+const MeterTable = observer((props: MeterTablePropsType) => {
+  const { currentPageIndex } = props;
+
   return (
     <TableWrapper>
       <Table>
@@ -26,14 +28,14 @@ export default function MeterTable(props: MeterTablePropsType) {
           </tr>
         </thead>
         <tbody>
-          {meters.map((meter, index) => (
+          {metersStore.metersList.map((meter, index) => (
             <tr key={meter.id}>
               <td>{currentPageIndex * METERS_LIMIT + index + 1}</td>
               <td>{meter._type[0]}</td>
               <td>{meter.installation_date}</td>
               <td>{meter.is_automatic}</td>
               <td>{meter.initial_values[meter.initial_values.length - 1]}</td>
-              <td>address</td>
+              <td>{areasStore.getAreaById(meter.area.id)?.house.address}</td>
               <td>{meter.description}</td>
               <td></td>
             </tr>
@@ -42,4 +44,6 @@ export default function MeterTable(props: MeterTablePropsType) {
       </Table>
     </TableWrapper>
   );
-}
+});
+
+export default MeterTable;

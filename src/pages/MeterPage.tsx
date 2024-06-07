@@ -1,53 +1,52 @@
 import { useEffect, useState } from 'react';
-import { getAreas, getMeters } from '../connections/server-connections';
+import metersStore from '../stores/meters-store';
+import areasStore from '../stores/areas-store';
+import areaIdListStore from '../stores/area-id-list-store';
+
+import {
+  getAreas,
+  getMeters,
+  METERS_LIMIT,
+} from '../connections/server-connections';
 import PaginationList from '../components/pagination/PaginationList';
 import MeterTable from '../components/meter-table/MeterTable';
 import { H1 } from '../styles/titles';
-import { Area, Meter } from '../utils/types';
-import { METERS_LIMIT } from '../connections/server-connections';
 
 export default function MeterPage() {
-  const [meters, setMeters] = useState<Array<Meter>>([]);
-  const [areas, setAreas] = useState<Array<Area>>([]);
   const [count, setCount] = useState(0);
   const [currentPageIndex, setCurrentPageIndex] = useState(0);
 
-  async function getMetersLocal(offset: number = 0) {
+  async function getData(offset: number = 0) {
     const meters = await getMeters(offset);
-    const addressList = new Set(
+
+    metersStore.setMeters(meters.data.results);
+
+    const newAreaIdList = areaIdListStore.getNewAreaIdList(
       meters.data.results.map((meter) => meter.area.id)
     );
 
-    if (addressList) {
-      getAreasLocal(Array.from(addressList));
+    if (newAreaIdList) {
+      const areas = await getAreas(newAreaIdList);
+      areasStore.setAreas(areas.data.results);
+      areaIdListStore.setAreaIdList(newAreaIdList);
     }
 
-    setMeters(meters.data.results);
-    setCount(meters.data.count);
-  }
-
-  async function getAreasLocal(addressList: Array<string>) {
-    const areas = await getAreas(addressList);
-    setAreas(areas.data.results);
+    if (meters.data.count !== count) setCount(meters.data.count);
   }
 
   const onClickPagination = (pageIndex: number) => {
     setCurrentPageIndex(pageIndex);
-    getMetersLocal(pageIndex * METERS_LIMIT);
+    getData(pageIndex * METERS_LIMIT);
   };
 
   useEffect(() => {
-    getMetersLocal();
+    getData();
   }, []);
 
   return (
     <>
       <H1>Список счётчиков</H1>
-      <MeterTable
-        meters={meters}
-        areas={areas}
-        currentPageIndex={currentPageIndex}
-      />
+      <MeterTable currentPageIndex={currentPageIndex} />
 
       <PaginationList
         limit={METERS_LIMIT}

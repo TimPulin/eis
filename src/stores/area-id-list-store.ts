@@ -1,8 +1,12 @@
-import { types } from 'mobx-state-tree';
+import { types, Instance } from 'mobx-state-tree';
+
+const AreaIdListModel = types.array(types.string);
+
+export type AreaIdListInstance = Instance<typeof AreaIdListModel>;
 
 const AreaIdListStore = types
   .model('AreaIdListStore', {
-    areaIdList: types.array(types.string),
+    areaIdList: AreaIdListModel,
   })
   .actions((self) => ({
     addAreaId(areaId: string) {
@@ -19,8 +23,14 @@ const AreaIdListStore = types
     getAreaIdList() {
       return self.areaIdList;
     },
-    isAreaInList(areaId: string) {
-      return self.areaIdList.includes(areaId);
+    getNewAreaIdList(areaIdList: Array<string>) {
+      const newList: Array<string> = [];
+      const idList = Array.from(new Set(areaIdList));
+
+      idList.forEach((areaId) => {
+        if (!self.areaIdList.includes(areaId)) newList.push(areaId);
+      });
+      return newList;
     },
   }));
 
