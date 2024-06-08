@@ -19,6 +19,8 @@ export default function MeterPage() {
   async function getData(offset: number = 0) {
     const meters = await getMeters(offset);
 
+    // 526237d1e0e34c524382c0aa
+
     metersStore.setMeters(meters.data.results);
 
     const newAreaIdList = areaIdListStore.getNewAreaIdList(

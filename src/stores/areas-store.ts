@@ -24,7 +24,8 @@ const AreasStore = types
     },
 
     setAreas(areas: Array<AreaInstance>) {
-      self.areas.replace(areas);
+      const areaSet = new Set([...self.areas, ...areas]);
+      self.areas.replace(Array.from(areaSet));
     },
   }))
   .views((self) => ({

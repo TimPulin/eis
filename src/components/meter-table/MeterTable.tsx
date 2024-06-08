@@ -13,6 +13,13 @@ type MeterTablePropsType = {
 const MeterTable = observer((props: MeterTablePropsType) => {
   const { currentPageIndex } = props;
 
+  const getAreaAddress = (areaId: string) => {
+    const area = areasStore.getAreaById(areaId);
+    if (area) {
+      return `${area.house.address},  ${area.str_number_full}`;
+    }
+  };
+
   return (
     <TableWrapper>
       <Table>
@@ -35,7 +42,7 @@ const MeterTable = observer((props: MeterTablePropsType) => {
               <td>{meter.installation_date}</td>
               <td>{meter.is_automatic}</td>
               <td>{meter.initial_values[meter.initial_values.length - 1]}</td>
-              <td>{areasStore.getAreaById(meter.area.id)?.house.address}</td>
+              <td>{getAreaAddress(meter.area.id)}</td>
               <td>{meter.description}</td>
               <td></td>
             </tr>
