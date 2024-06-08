@@ -1,9 +1,5 @@
 import { useEffect, useState } from 'react';
-import {
-  StyledPagination,
-  StyledButton,
-  StyledThreeDots,
-} from './pagination-styles';
+import { StyledPagination, StyledThreeDots } from './pagination-styles';
 import PaginationItem from './PaginationItem';
 
 type PaginationListPropsType = {
@@ -79,21 +75,22 @@ export default function PaginationList(props: PaginationListPropsType) {
       />
 
       {/* NOTE отрисовка дополнительных трех кнопок */}
-      {currentPageIndex === 2 && pagesCount > BTN_STATIC_AMOUNT && (
-        <PaginationItem
-          pageIndexList={pageIndexList.slice(
-            3,
-            pageIndexList.length - BTN_STATIC_AMOUNT - 1 > 3
-              ? 6
-              : pageIndexList.length - BTN_STATIC_AMOUNT - 1
-          )}
-          currentPageIndex={currentPageIndex}
-          onClick={onClick}
-        />
-      )}
+      {[2, 3, 4].includes(currentPageIndex) &&
+        pagesCount > BTN_STATIC_AMOUNT && (
+          <PaginationItem
+            pageIndexList={pageIndexList.slice(
+              3,
+              pageIndexList.length - BTN_STATIC_AMOUNT - 1 > 3
+                ? 6
+                : pageIndexList.length - BTN_STATIC_AMOUNT - 1
+            )}
+            currentPageIndex={currentPageIndex}
+            onClick={onClick}
+          />
+        )}
 
       {currentPageIndex >= 5 &&
-        currentPageIndex <= pagesCount - 4 &&
+        currentPageIndex <= pagesCount - 6 &&
         pagesCount > 9 && (
           <>
             <li>
@@ -115,7 +112,11 @@ export default function PaginationList(props: PaginationListPropsType) {
       </li>
 
       {/* NOTE отрисовка дополнительных трех кнопок */}
-      {currentPageIndex === pageIndexList.length - 3 &&
+      {[
+        pageIndexList.length - 3,
+        pageIndexList.length - 4,
+        pageIndexList.length - 5,
+      ].includes(currentPageIndex) &&
         pagesCount > BTN_STATIC_AMOUNT && (
           <PaginationItem
             pageIndexList={pageIndexList.slice(
