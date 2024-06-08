@@ -3,12 +3,14 @@ import styled, { CSSProp } from 'styled-components';
 import { buttonStyle } from '../../styles/button';
 
 type ButtonProps = {
-  additionalStyles?: CSSProp;
+  '$additional-styles'?: CSSProp;
 };
 
 const Button = styled.button<ButtonProps>`
   ${buttonStyle}
-  ${({ additionalStyles }) => additionalStyles && additionalStyles}
+  padding-block: 8px;
+  ${({ '$additional-styles': additionalStyles }) =>
+    additionalStyles && additionalStyles}
 `;
 
 type ButtonBasePropsType = {
@@ -20,7 +22,11 @@ type ButtonBasePropsType = {
 export default function ButtonBase(props: ButtonBasePropsType) {
   const { ElementJSX, additionalStyles, onClick } = props;
   return (
-    <Button additionalStyles={additionalStyles} type="button" onClick={onClick}>
+    <Button
+      $additional-styles={additionalStyles}
+      type="button"
+      onClick={onClick}
+    >
       {ElementJSX}
     </Button>
   );
