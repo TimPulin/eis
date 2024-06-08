@@ -4,7 +4,7 @@ import { buttonStyle } from '../../styles/button';
 export const StyledPagination = styled.ul`
   display: flex;
   flex-direction: row;
-  justify-content: left;
+  justify-content: flex-end;
   column-gap: 8px;
   margin: 0;
   padding: 0;
