@@ -13,6 +13,19 @@ type MeterTablePropsType = {
 const MeterTable = observer((props: MeterTablePropsType) => {
   const { currentPageIndex } = props;
 
+  //   TODO доделать
+  const getMeterType = (type: string) => {
+    return '';
+  };
+
+  const formatDate = (date: string) => {
+    return new Date(date).toLocaleDateString();
+  };
+
+  const isAutomatic = (isAutomatic: boolean | null) => {
+    return isAutomatic ? 'Да' : 'Нет';
+  };
+
   const getAreaAddress = (areaId: string) => {
     const area = areasStore.getAreaById(areaId);
     if (area) {
@@ -38,9 +51,9 @@ const MeterTable = observer((props: MeterTablePropsType) => {
           {metersStore.metersList.map((meter, index) => (
             <tr key={meter.id}>
               <td>{currentPageIndex * METERS_LIMIT + index + 1}</td>
-              <td>{meter._type[0]}</td>
-              <td>{meter.installation_date}</td>
-              <td>{meter.is_automatic}</td>
+              <td>{getMeterType(meter._type[0])}</td>
+              <td>{formatDate(meter.installation_date)}</td>
+              <td>{isAutomatic(meter.is_automatic)}</td>
               <td>{meter.initial_values[meter.initial_values.length - 1]}</td>
               <td>{getAreaAddress(meter.area.id)}</td>
               <td>{meter.description}</td>
