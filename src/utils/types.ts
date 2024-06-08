@@ -1,3 +1,4 @@
+// TODO удалить
 type Meter = {
   id: string;
   area: { id: string };
@@ -12,6 +13,7 @@ type Meter = {
   _type: Array<string>;
 };
 
+// TODO удалить
 type Area = {
   id: string;
   house: {
