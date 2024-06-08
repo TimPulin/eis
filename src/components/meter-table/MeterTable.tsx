@@ -4,14 +4,21 @@ import areasStore from '../../stores/areas-store';
 
 import { METERS_LIMIT } from '../../connections/server-connections';
 
-import { TableWrapper, Table, MeterType } from './meter-table-styles';
+import {
+  TableWrapper,
+  Table,
+  MeterType,
+  MeterDeleteWrapper,
+} from './meter-table-styles';
+import ButtonDelete from '../button/ButtonDelete';
 
 type MeterTablePropsType = {
   currentPageIndex: number;
+  deleteMeter: (id: string) => void;
 };
 
 const MeterTable = observer((props: MeterTablePropsType) => {
-  const { currentPageIndex } = props;
+  const { currentPageIndex, deleteMeter } = props;
 
   const getMeterType = (type: string): { iconId: string; title: string } => {
     switch (type) {
@@ -62,7 +69,8 @@ const MeterTable = observer((props: MeterTablePropsType) => {
             <th>Автоматический</th>
             <th>Текущие показания</th>
             <th>Адрес</th>
-            <th colSpan={2}>Примечание</th>
+            <th>Примечание</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -75,7 +83,11 @@ const MeterTable = observer((props: MeterTablePropsType) => {
               <td>{meter.initial_values[meter.initial_values.length - 1]}</td>
               <td>{getAreaAddress(meter.area.id)}</td>
               <td>{meter.description}</td>
-              <td></td>
+              <td>
+                <MeterDeleteWrapper>
+                  <ButtonDelete onClick={() => deleteMeter(meter.id)} />
+                </MeterDeleteWrapper>
+              </td>
             </tr>
           ))}
         </tbody>

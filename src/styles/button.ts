@@ -12,6 +12,8 @@ export const buttonStyle = css`
   color: ${({ theme }) => theme.colors.text};
   cursor: pointer;
 
+  transition: all 0.2s ease-in-out;
+
   &:hover,
   &:active,
   &:focus,
@@ -21,5 +23,8 @@ export const buttonStyle = css`
 
   &:disabled {
     cursor: not-allowed;
+  }
+  svg {
+    transition: all 0.2s ease-in-out;
   }
 `;
