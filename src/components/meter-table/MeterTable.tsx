@@ -4,7 +4,7 @@ import areasStore from '../../stores/areas-store';
 
 import { METERS_LIMIT } from '../../connections/server-connections';
 
-import { TableWrapper, Table } from './meter-table-styles';
+import { TableWrapper, Table, MeterType } from './meter-table-styles';
 
 type MeterTablePropsType = {
   currentPageIndex: number;
@@ -13,9 +13,27 @@ type MeterTablePropsType = {
 const MeterTable = observer((props: MeterTablePropsType) => {
   const { currentPageIndex } = props;
 
-  //   TODO доделать
-  const getMeterType = (type: string) => {
-    return '';
+  const getMeterType = (type: string): { iconId: string; title: string } => {
+    switch (type) {
+      case 'HotWaterAreaMeter':
+        return { iconId: 'iconHotWater', title: 'ГВС' };
+      case 'ColdWaterAreaMeter':
+        return { iconId: 'iconColdWater', title: 'ХВС' };
+      default:
+        return { iconId: '', title: '' };
+    }
+  };
+
+  const renderMeterType = (type: string) => {
+    const { iconId, title } = getMeterType(type);
+    return (
+      <MeterType>
+        <svg width={9}>
+          <use href={`#${iconId}`} />
+        </svg>
+        <span>{title}</span>
+      </MeterType>
+    );
   };
 
   const formatDate = (date: string) => {
@@ -51,7 +69,7 @@ const MeterTable = observer((props: MeterTablePropsType) => {
           {metersStore.metersList.map((meter, index) => (
             <tr key={meter.id}>
               <td>{currentPageIndex * METERS_LIMIT + index + 1}</td>
-              <td>{getMeterType(meter._type[0])}</td>
+              <td>{renderMeterType(meter._type[0])}</td>
               <td>{formatDate(meter.installation_date)}</td>
               <td>{isAutomatic(meter.is_automatic)}</td>
               <td>{meter.initial_values[meter.initial_values.length - 1]}</td>

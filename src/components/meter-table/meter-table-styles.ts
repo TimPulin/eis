@@ -57,3 +57,9 @@ export const Table = styled.table`
     text-align: center;
   }
 `;
+
+export const MeterType = styled.div`
+  display: flex;
+  align-items: center;
+  column-gap: 8px;
+`;
