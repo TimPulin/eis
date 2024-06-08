@@ -20,6 +20,7 @@ const Main = styled.main`
   height: 100vh;
   overflow: hidden;
   display: grid;
+  grid-template-rows: auto 1fr auto;
   row-gap: 8px;
   padding-bottom: 20px;
   box-sizing: border-box;
