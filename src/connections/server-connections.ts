@@ -19,3 +19,7 @@ export function getAreas(idList: Array<string>) {
     `/areas?limit=${METERS_LIMIT}&offset=0&${query}`
   );
 }
+
+export function deleteMeter(id: string) {
+  return eisAPI.delete<ServerResponse<MeterInstance>>(`/meters/${id}`);
+}

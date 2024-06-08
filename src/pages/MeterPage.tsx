@@ -2,15 +2,18 @@ import { useEffect, useState } from 'react';
 import metersStore from '../stores/meters-store';
 import areasStore from '../stores/areas-store';
 import areaIdListStore from '../stores/area-id-list-store';
-import styled from 'styled-components';
 
 import {
   getAreas,
   getMeters,
+  deleteMeter,
   METERS_LIMIT,
 } from '../connections/server-connections';
+
 import PaginationList from '../components/pagination/PaginationList';
 import MeterTable from '../components/meter-table/MeterTable';
+
+import styled from 'styled-components';
 import { H1 } from '../styles/titles';
 
 const Main = styled.main`
@@ -44,6 +47,11 @@ export default function MeterPage() {
     if (meters.data.count !== count) setCount(meters.data.count);
   }
 
+  const deleteMeterLocal = async (id: string) => {
+    await deleteMeter(id);
+    await getData(currentPageIndex * METERS_LIMIT);
+  };
+
   const onClickPagination = (pageIndex: number) => {
     setCurrentPageIndex(pageIndex);
     getData(pageIndex * METERS_LIMIT);
@@ -56,7 +64,10 @@ export default function MeterPage() {
   return (
     <Main>
       <H1>Список счётчиков</H1>
-      <MeterTable currentPageIndex={currentPageIndex} />
+      <MeterTable
+        currentPageIndex={currentPageIndex}
+        deleteMeter={deleteMeterLocal}
+      />
 
       <PaginationList
         limit={METERS_LIMIT}

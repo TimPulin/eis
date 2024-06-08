@@ -1,5 +1,9 @@
 import styled from 'styled-components';
 
+export const MeterDeleteWrapper = styled.div`
+  display: none;
+`;
+
 export const TableWrapper = styled.div`
   margin-bottom: 80px;
   border: 1px solid ${({ theme }) => theme.colors.border};
@@ -36,6 +40,10 @@ export const Table = styled.table`
 
   tbody tr:hover {
     background-color: ${({ theme }) => theme.colors.backgroundAccentShadow};
+
+    ${MeterDeleteWrapper} {
+      display: block;
+    }
   }
 
   th {
