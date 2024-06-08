@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 export const TableWrapper = styled.div`
+  margin-bottom: 8px;
   border: 1px solid ${({ theme }) => theme.colors.border};
   border-radius: 10px;
   overflow: hidden;
@@ -11,7 +12,7 @@ export const Table = styled.table`
   border-collapse: collapse;
   border-spacing: 0;
 
-  tr {
+  tr:not(:last-child) {
     border-bottom: 1px solid ${({ theme }) => theme.colors.border};
   }
 
@@ -62,4 +63,8 @@ export const MeterType = styled.div`
   display: flex;
   align-items: center;
   column-gap: 8px;
+  svg {
+    width: 16px;
+    height: 16px;
+  }
 `;
