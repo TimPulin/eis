@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import metersStore from '../stores/meters-store';
 import areasStore from '../stores/areas-store';
 import areaIdListStore from '../stores/area-id-list-store';
+import styled from 'styled-components';
 
 import {
   getAreas,
@@ -12,14 +13,21 @@ import PaginationList from '../components/pagination/PaginationList';
 import MeterTable from '../components/meter-table/MeterTable';
 import { H1 } from '../styles/titles';
 
+const Main = styled.main`
+  height: 100vh;
+  overflow: hidden;
+  display: grid;
+  row-gap: 8px;
+  padding-bottom: 20px;
+  box-sizing: border-box;
+`;
+
 export default function MeterPage() {
   const [count, setCount] = useState(0);
   const [currentPageIndex, setCurrentPageIndex] = useState(0);
 
   async function getData(offset: number = 0) {
     const meters = await getMeters(offset);
-
-    // 526237d1e0e34c524382c0aa
 
     metersStore.setMeters(meters.data.results);
 
@@ -46,7 +54,7 @@ export default function MeterPage() {
   }, []);
 
   return (
-    <>
+    <Main>
       <H1>Список счётчиков</H1>
       <MeterTable currentPageIndex={currentPageIndex} />
 
@@ -56,6 +64,6 @@ export default function MeterPage() {
         currentPageIndex={currentPageIndex}
         onClick={onClickPagination}
       />
-    </>
+    </Main>
   );
 }

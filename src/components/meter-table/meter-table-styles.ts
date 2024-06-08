@@ -1,16 +1,30 @@
 import styled from 'styled-components';
 
 export const TableWrapper = styled.div`
-  margin-bottom: 8px;
+  margin-bottom: 80px;
   border: 1px solid ${({ theme }) => theme.colors.border};
   border-radius: 10px;
-  overflow: hidden;
+  height: 100%;
+  overflow-y: scroll;
+
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+  }
 `;
 
 export const Table = styled.table`
   width: 100%;
   border-collapse: collapse;
   border-spacing: 0;
+
+  th {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
 
   tr:not(:last-child) {
     border-bottom: 1px solid ${({ theme }) => theme.colors.border};
@@ -36,11 +50,12 @@ export const Table = styled.table`
   td {
     font-size: 14px;
   }
+
   td:not(:last-child) {
     padding-inline: 12px;
   }
 
-  th,
+  th:not(:first-child),
   td:not(:first-child) {
     text-align: left;
   }
