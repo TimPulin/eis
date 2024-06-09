@@ -11,6 +11,7 @@ import {
   MeterDeleteWrapper,
 } from './meter-table-styles';
 import ButtonDelete from '../button/ButtonDelete';
+import Loader from '../loader/Loader';
 
 type MeterTablePropsType = {
   currentPageIndex: number;
@@ -92,6 +93,7 @@ const MeterTable = observer((props: MeterTablePropsType) => {
           ))}
         </tbody>
       </Table>
+      <Loader isLoading={metersStore.isLoading} />
     </TableWrapper>
   );
 });

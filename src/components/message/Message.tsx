@@ -1,4 +1,4 @@
-import { StyledMessage } from './message-style';
+import { StyledMessage } from './message-styles';
 
 type MessagePropsType = {
   text: string;

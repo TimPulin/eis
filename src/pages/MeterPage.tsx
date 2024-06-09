@@ -34,34 +34,44 @@ export default function MeterPage() {
   const [currentPageIndex, setCurrentPageIndex] = useState(0);
 
   async function getData(offset: number = 0) {
-    const meters = await getMeters(offset);
+    try {
+      metersStore.setLoading(true);
+      const meters = await getMeters(offset);
 
-    metersStore.setMeters(meters.data.results);
+      metersStore.setMeters(meters.data.results);
 
-    const newAreaIdList = areaIdListStore.getNewAreaIdList(
-      meters.data.results.map((meter) => meter.area.id)
-    );
+      const newAreaIdList = areaIdListStore.getNewAreaIdList(
+        meters.data.results.map((meter) => meter.area.id)
+      );
 
-    if (newAreaIdList) {
-      const areas = await getAreas(newAreaIdList);
-      areasStore.setAreas(areas.data.results);
-      areaIdListStore.setAreaIdList(newAreaIdList);
+      if (newAreaIdList) {
+        const areas = await getAreas(newAreaIdList);
+        areasStore.setAreas(areas.data.results);
+        areaIdListStore.setAreaIdList(newAreaIdList);
+      }
+
+      if (meters.data.count !== count) setCount(meters.data.count);
+    } catch (error) {
+      const axiosError = error as ServerError;
+      addMessage(
+        `Не удалось получить список счётчиков. ${axiosError.response.statusText}`
+      );
+    } finally {
+      metersStore.setLoading(false);
     }
-
-    if (meters.data.count !== count) setCount(meters.data.count);
   }
 
   const deleteMeterLocal = async (id: string) => {
     try {
       await deleteMeter(id);
       addMessage(`Счётчик ${id} удален`);
-      await getData(currentPageIndex * METERS_LIMIT);
     } catch (error) {
       const axiosError = error as ServerError;
       addMessage(
         `Не удалось удалить счётчик ${id}. ${axiosError.response.statusText}`
       );
     }
+    await getData(currentPageIndex * METERS_LIMIT);
   };
 
   const onClickPagination = (pageIndex: number) => {

@@ -19,6 +19,7 @@ export type MeterInstance = Instance<typeof MeterModel>;
 const MetersStore = types
   .model('MeterStore', {
     meters: types.array(MeterModel),
+    _isLoading: types.optional(types.boolean, false),
   })
   .actions((self) => ({
     addMeter(meter: MeterInstance) {
@@ -28,10 +29,18 @@ const MetersStore = types
     setMeters(meters: Array<MeterInstance>) {
       self.meters.replace(meters);
     },
+
+    setLoading(isLoading: boolean) {
+      self._isLoading = isLoading;
+    },
   }))
   .views((self) => ({
     get metersList() {
       return self.meters;
+    },
+
+    get isLoading() {
+      return self._isLoading;
     },
   }));
 
