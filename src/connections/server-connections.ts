@@ -1,6 +1,6 @@
 import qs from 'qs';
 import { eisAPI } from './axios-instance';
-import { ServerError, ServerResponse } from '../utils/types';
+import { ServerResponse } from '../utils/types';
 import { MeterInstance } from '../stores/meters-store';
 import { AreaInstance } from '../stores/areas-store';
 
