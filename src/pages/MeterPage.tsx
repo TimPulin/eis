@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useMessage } from '../contexts/MessageContext';
 import metersStore from '../stores/meters-store';
 import areasStore from '../stores/areas-store';
 import areaIdListStore from '../stores/area-id-list-store';
@@ -15,6 +16,7 @@ import MeterTable from '../components/meter-table/MeterTable';
 
 import styled from 'styled-components';
 import { H1 } from '../styles/titles';
+import { ServerError } from '../utils/types';
 
 const Main = styled.main`
   height: 100vh;
@@ -27,6 +29,7 @@ const Main = styled.main`
 `;
 
 export default function MeterPage() {
+  const { addMessage } = useMessage();
   const [count, setCount] = useState(0);
   const [currentPageIndex, setCurrentPageIndex] = useState(0);
 
@@ -49,8 +52,16 @@ export default function MeterPage() {
   }
 
   const deleteMeterLocal = async (id: string) => {
-    await deleteMeter(id);
-    await getData(currentPageIndex * METERS_LIMIT);
+    try {
+      await deleteMeter(id);
+      addMessage(`Счётчик ${id} удален`);
+      await getData(currentPageIndex * METERS_LIMIT);
+    } catch (error) {
+      const axiosError = error as ServerError;
+      addMessage(
+        `Не удалось удалить счётчик ${id}. ${axiosError.response.statusText}`
+      );
+    }
   };
 
   const onClickPagination = (pageIndex: number) => {
