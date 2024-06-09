@@ -1,6 +1,6 @@
 import qs from 'qs';
 import { eisAPI } from './axios-instance';
-import { ServerResponse } from '../utils/types';
+import { ServerError, ServerResponse } from '../utils/types';
 import { MeterInstance } from '../stores/meters-store';
 import { AreaInstance } from '../stores/areas-store';
 
@@ -21,5 +21,5 @@ export function getAreas(idList: Array<string>) {
 }
 
 export function deleteMeter(id: string) {
-  return eisAPI.delete<ServerResponse<MeterInstance>>(`/meters/${id}`);
+  return eisAPI.delete(`/meters/${id}`);
 }
