@@ -5,6 +5,7 @@ export const MeterDeleteWrapper = styled.div`
 `;
 
 export const TableWrapper = styled.div`
+  position: relative;
   margin-bottom: 80px;
   border: 1px solid ${({ theme }) => theme.colors.border};
   border-radius: 10px;
